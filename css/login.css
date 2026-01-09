@@ -542,7 +542,7 @@ form::after{
   display:block;
 }
 form.appForm {
-  width: 50%;
+  width: 90%;
   margin: 0 auto;
   padding: 10px;
   border: 1px solid #cecfd0;
@@ -573,4 +573,69 @@ button.appBtn{
   padding:10px;
   margin-top:20px;
   float:right;
+}
+p.responseMessage{
+  font-size: 18px;
+  text-align: center;
+  margin-top: 33px;
+  padding: 20px;
+}
+p.responseMessage__error{
+  background: rgba(128,0,0,0.1);
+
+}
+p.responseMessage__success{
+  background: rgba(0,128,0,0.1);
+  
+}
+div.row{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  width:100%;
+}
+div.column{
+  width:100%;
+  padding:0px 10px;
+}
+div.column-5{
+  width:41.67%;
+}
+div.column-7{
+  width:58.33%;
+}
+
+h1.section-header{
+  font-size: 21px;
+  color:#f685a1;
+  border-bottom: 1px solid #ffd7e1;
+  padding-bottom:11px;
+  padding:10px;
+  border-left: 4px solid #f690bf;
+  margin-bottom: 15px;
+}
+div.users table,th,td{
+  border:1px solid #cacaca;
+  border-collapse:collapse;
+
+}
+table{
+  width:100%;
+}
+table th{
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+  background: #f4f6f9;
+}
+table td{
+  font-size:13px;
+  text-align: center;
+}
+p.userCount{
+  text-align:right;
+  font-size:15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color:#f685a1;
 }
