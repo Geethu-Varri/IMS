@@ -1,7 +1,7 @@
 <?php
 // session start
 session_start();
-if(isset($_SESSION['user'])) header('loaction: dashboard.php');
+if(isset($_SESSION['user'])) header('location: dashboard.php');
 
 $error_message = '';
 if ($_POST) {
@@ -16,8 +16,11 @@ if ($_POST) {
   if($stmt->rowCount() >0){
     $stmt->setFetchMode(PDO::FETCH_ASSOC);
     $user = $stmt->fetchAll()[0];
+
+    // Captures data of currently login users.
+
     $_SESSION['user'] = $user;
-    header('Location: dashboard.php');
+    header('location: dashboard.php');
   }
   else{ 
     $error_message = 'Please make sure that username and password are correct.';
