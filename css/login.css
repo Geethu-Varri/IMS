@@ -468,7 +468,7 @@ div.footer a:hover {
 div.dashboard_sidebar {
   width: 24%;
   background: #323232;
-  height: 190vh;
+  min-height: 100vh;
 
 }
 div.dashboard_content_container {
