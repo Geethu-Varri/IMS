@@ -24,6 +24,10 @@ $user = $_SESSION['user'];
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('supplier_create', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -46,7 +50,7 @@ $user = $_SESSION['user'];
                                     </div>
                             
                                     <!-- <input type="hidden" name="table" value="users"> -->
-                                    <button type="submit" class="appBtn"><i class="fa-solid fa-plus"></i>Create Product</button>
+                                    <button type="submit" class="appBtn"><i class="fa-solid fa-plus"></i>Create Supplier</button>
 
                                 </form>
                                 <?php
@@ -67,6 +71,9 @@ $user = $_SESSION['user'];
                        
                     </div>
                 </div>
+                <?php } else { ?>
+                            <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
         <?php include('partials/app-scripts.php'); ?>

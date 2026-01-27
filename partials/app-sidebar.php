@@ -14,6 +14,9 @@
                         <a href="./dashboard.php"><i class="fa-solid fa-gauge "></i><span class="menuText">Dashboard</span></a>
                     </li>
                     <li class="liMainMenu">
+                        <a href="./report.php"><i class="fa-solid fa-file "></i><span class="menuText">Reports</span></a>
+                    </li>
+                    <li class="liMainMenu">
                         <a href="javascript:void(0);" class="showHideSubMenu" > 
                             <i class="fa-solid fa-tag showHideSubMenu"></i>
                             <span class="menuText showHideSubMenu" >Product</span>

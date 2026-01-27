@@ -33,6 +33,16 @@ toggleBtn.addEventListener('click', (event) => {
 
 document.addEventListener('click',function(e){
     let clickedEl = e.target;
+    let classList = clickedEl.classList;
+
+    if(classList.contains('accessDeniedErr')){
+        e.preventDefault();
+        BootstrapDialog.alert({
+            type: BootstrapDialog.TYPE_DANGER,
+            message: 'Access Denied'
+        });
+    }
+
     if(clickedEl.classList.contains('showHideSubMenu')){
         
         let subMenu = clickedEl.closest('li').querySelector('.subMenus');

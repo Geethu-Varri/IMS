@@ -25,6 +25,10 @@ $products = json_encode($products);
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('po_create', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -58,6 +62,9 @@ $products = json_encode($products);
                     </div>
 
                 </div>
+                <?php } else { ?>
+                        <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
     </div>

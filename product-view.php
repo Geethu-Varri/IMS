@@ -26,6 +26,10 @@ $products = include('database/show.php');
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('product_view', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -96,8 +100,14 @@ $products = include('database/show.php');
                                                     <td><?= date('M d, Y @ h:i:s A', strtotime($product['created_at']))  ?></td>
                                                     <td><?= date('M d,Y @ h:i:s A', strtotime($product['updated_at'])) ?></td>
                                                     <td>
-                                                        <a href="" class="updateProduct" data-pid="<?= $product['id'] ?>" ><i class="fa-solid fa-pencil"></i>Edit</a>
-                                                        <a href="" class="deleteProduct" data-name = "<?= $product['product_name'] ?>" data-pid="<?= $product['id'] ?>"><i class="fa-solid fa-trash-can"></i>Delete</a>
+                                                        <a href="" 
+                                                           class="<?= in_array('product_edit', $user['permissions']) ? 'updateProduct' : 'accessDeniedErr' ?>" 
+                                                           data-pid="<?= $product['id'] ?>" >
+                                                           <i class="fa-solid fa-pencil"></i>Edit</a>
+                                                        <a href=""
+                                                           class="<?= in_array('product_delete', $user['permissions']) ? 'deleteProduct' : 'accessDeniedErr' ?>" 
+                                                           data-name = "<?= $product['product_name'] ?>"
+                                                           data-pid="<?= $product['id'] ?>"><i class="fa-solid fa-trash-can"></i>Delete</a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -110,6 +120,9 @@ $products = include('database/show.php');
                         </div>
                     </div>
                 </div>
+                <?php } else { ?>
+                            <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
 <?php
@@ -178,6 +191,13 @@ $products = include('database/show.php');
                         }
                     });
                 }
+                // if(classList.contains('accessDeniedErr')){
+                //     e.preventDefault();
+                //     BootstrapDialog.alert({
+                //         type: BootstrapDialog.TYPE_DANGER,
+                //         message: 'Access Denied'
+                //     });
+                // }
 
                 if (classList.contains('updateProduct')) {
                     e.preventDefault();

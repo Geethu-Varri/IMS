@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if (!isset($_SESSION['user'])) header('location: login.php');
 $user = $_SESSION['user'];
 
@@ -30,6 +31,13 @@ include('database/delivery_history.php');
         <?php include('partials/app-sidebar.php') ?>
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
+            <?php 
+            // if(in_array('dashboard_view',$user['permissions'])){ 
+            // $permissions = explode(',', $user['permissions']);
+            //     if(in_array('dashboard_view', $permissions)){
+                $permissions = $user['permissions'];
+                if(in_array('dashboard_view', $permissions)){
+            ?>
             <div class="dashboard_content">
                 <div class="dashboard_content_main">
                     <div class="col50">
@@ -48,11 +56,11 @@ include('database/delivery_history.php');
                             </p>
                         </figure>
                     </div>
-                    <div id="deliveryHistory" style="width:868px; height:400px;">
-
-
-                    </div>
+                    <div id="deliveryHistory" style="width:868px; height:400px;"></div>      
                 </div>
+            <?php } else { ?>
+                    <div id="errorMessage"> Access denied.</div>
+            <?php } ?>
             </div>
         </div>
     </div>
@@ -150,7 +158,7 @@ var lineCategories = <?= json_encode($line_categories) ?>;
 var lineData = <?= json_encode($line_data) ?>;
 Highcharts.chart('deliveryHistory', {
     chart: {
-        type: 'line'
+        type: 'spline'
     },
 
     title: {

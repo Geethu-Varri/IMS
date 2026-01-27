@@ -24,6 +24,10 @@ $users = include('database/show.php');
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('user_create', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -48,7 +52,12 @@ $users = include('database/show.php');
                                         <label for="password">Password</label>
                                         <input type="password" id="password" class="appFormInput" name="password">
                                     </div>
-                                    <!-- <input type="hidden" name="table" value="users"> -->
+                                    <input type="hidden" id="permission_el" name="permissions">
+                                    <!-- 
+                                         Create a section for permissions
+                                         organized by modules > functions
+                                     -->
+                                    <?php include('partials/permissions.php') ?>
                                     <button type="submit" class="appBtn"><i class="fa-solid fa-plus"></i>Add User</button>
 
                                 </form>
@@ -70,9 +79,56 @@ $users = include('database/show.php');
                        
                     </div>
                 </div>
+                <?php } else { ?>
+                            <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
         <?php include('partials/app-scripts.php'); ?>
+<script>
+    function loadScript(){
+        this.permissions = [];
+        this.initialize = function(){
+            this.registerEvents();
+        },
+
+        this.registerEvents = function(){
+            // Click
+            document.addEventListener('click',function(e){
+                let target = e.target;
+
+                // Check if class name - moduleFnc - is clicked
+                if(target.classList.contains('moduleFunc')){
+
+                    // Get the value
+                    let permissionName = target.dataset.value;
+
+                    // Set the active class
+                    if(target.classList.contains('permissionActive')){
+                        target.classList.remove('permissionActive');
+
+                        // Remove from array
+                        script.permissions = script.permissions.filter((name) =>{
+                            return name !== permissionName;
+                        });
+                    }
+                    else{
+                        target.classList.add('permissionActive');
+                        script.permissions.push(permissionName);
+                    } 
+
+                    // Update the hidden element
+                    document.getElementById('permission_el')
+                         .value = script.permissions.join(',');
+                }
+            })
+
+        }
+
+    }
+    var script = new loadScript;
+    script.initialize();
+</script>
 
 </body>
 

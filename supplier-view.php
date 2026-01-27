@@ -24,6 +24,10 @@ $suppliers = include('database/show.php');
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('supplier_view', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -91,8 +95,13 @@ $suppliers = include('database/show.php');
                                                     <td><?= date('M d, Y @ h:i:s A', strtotime($supplier['created_at']))  ?></td>
                                                     <td><?= date('M d,Y @ h:i:s A', strtotime($supplier['updated_at'])) ?></td>
                                                     <td>
-                                                        <a href="" class="updateSupplier" data-sid="<?= $supplier['id'] ?>" ><i class="fa-solid fa-pencil"></i>Edit</a>
-                                                        <a href="" class="deleteSupplier" data-name = "<?= $supplier['supplier_name'] ?>" data-sid="<?= $supplier['id'] ?>"><i class="fa-solid fa-trash-can"></i>Delete</a>
+                                                        <a href="" 
+                                                           class="<?= in_array('supplier_edit', $user['permissions']) ? 'updateSupplier' : 'accessDeniedErr' ?>"
+                                                           data-sid="<?= $supplier['id'] ?>" ><i class="fa-solid fa-pencil"></i>Edit</a>
+                                                        <a href="" 
+                                                           class="<?= in_array('supplier_delete', $user['permissions']) ? 'deleteSupplier' : 'accessDeniedErr' ?>" 
+                                                           data-name = "<?= $supplier['supplier_name'] ?>" 
+                                                           data-sid="<?= $supplier['id'] ?>"><i class="fa-solid fa-trash-can"></i>Delete</a>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -105,6 +114,9 @@ $suppliers = include('database/show.php');
                         </div>
                     </div>
                 </div>
+                <?php } else { ?>
+                            <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
 <?php
@@ -174,6 +186,13 @@ $suppliers = include('database/show.php');
                         }
                     });
                 }
+                // if(classList.contains('accessDeniedErr')){
+                //     e.preventDefault();
+                //     BootstrapDialog.alert({
+                //         type: BootstrapDialog.TYPE_DANGER,
+                //         message: 'Access Denied'
+                //     });
+                // }
 
                 if (classList.contains('updateSupplier')) {
                     e.preventDefault();

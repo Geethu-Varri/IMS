@@ -4,27 +4,47 @@ session_start();
 if(isset($_SESSION['user'])) header('location: dashboard.php');
 
 $error_message = '';
+
 if ($_POST) {
   include('database/connection.php');
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $query = 'SELECT * FROM users WHERE users.email ="'.$username .'"AND users.password="'.$password.'" ';
-  $stmt = $conn->prepare($query);
+  // $query = 'SELECT * FROM users WHERE users.email ="'.$username .'"AND users.password="'.$password.'" ';
+  // $stmt = $conn->prepare($query);
+  // $stmt->execute();
+
+  // if($stmt->rowCount() >0){
+  //   $stmt->setFetchMode(PDO::FETCH_ASSOC);
+  //   $user = $stmt->fetchAll()[0];
+  // }
+      // Captures data of currently login users.
+//    $_SESSION['user'] = $user;
+//    header('location: dashboard.php');
+// }
+// else $error_message = 'Please make sure that username and password are correct.';
+
+
+
+  $stmt = $conn->prepare("SELECT * From users");
   $stmt->execute();
+  $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-  if($stmt->rowCount() >0){
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $user = $stmt->fetchAll()[0];
+  $users = $stmt->fetchAll();
 
-    // Captures data of currently login users.
-
-    $_SESSION['user'] = $user;
-    header('location: dashboard.php');
+  $user_exist = false;
+  foreach($users as $user){
+    $upass = $user['password'];
+    if(password_verify($password,$upass)){
+      $user_exist = true;
+      $user['permissions'] = explode(',', $user['permissions']);
+      $_SESSION['user'] = $user;
+      break;
+    }
   }
-  else{ 
-    $error_message = 'Please make sure that username and password are correct.';
-  }
+
+  if($user_exist) header('location: dashboard.php');
+  else $error_message = 'Please make sure that username and password are correct.';
  
   
 }

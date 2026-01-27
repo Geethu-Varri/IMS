@@ -1,13 +1,14 @@
 <?php
-$servername = 'localhost';
-$username = 'root';
-$password = '';
-//  connecting a database
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=inventory", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // echo "Connected Successfully.";
-} catch (\Exception $e) {
-    $error_message =  $e->getMessage();
-    
-}
+    date_default_timezone_set('Asia/Kolkata');
+    $servername = 'localhost';
+    $username = 'root';
+    $password = '';
+    //  connecting a database
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=inventory", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // echo "Connected Successfully.";
+    } catch (\Exception $e) {
+        $error_message =  $e->getMessage();
+        
+    }

@@ -70,7 +70,9 @@ try{
              
         $response = [
             'success' => true,
-            'message' => '<strong>$product_name</strong> successfully updated to the system.'
+            // 'message' => '<strong>$product_name</strong> successfully updated to the system.'
+            "message" => "<strong>$product_name</strong> successfully updated to the system."
+
         ];
 
         }

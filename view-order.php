@@ -1,8 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) header('location: login.php');
-// $_SESSION['table'] = 'products';
-// $user = $_SESSION['user'];
+
 $show_table = 'suppliers';
 $suppliers = include('database/show.php');
 
@@ -24,6 +23,10 @@ $suppliers = include('database/show.php');
         <div class="dashboard_content_container" id="dashboard_content_container">
             <?php include('partials/app-topNav.php') ?>
             <div class="dashboard_content">
+                <?php 
+                    $permissions = $user['permissions'];
+                         if(in_array('po_view', $permissions)){
+                ?>
                 <div class="dashboard_content_main">
                     <div class="row">
                         <div class="column column-12">
@@ -99,10 +102,14 @@ $suppliers = include('database/show.php');
 
                                                 </tbody>
                                             </table>
+                                            <?php 
+                                                $permissions = $user['permissions'];
+                                                    if(in_array('po_edit', $permissions)){
+                                            ?>
                                             <div class="poOrderUpdateBtnContainer alignRight">
                                                 <button class="appbtn updatePoBtn" data-id="<?= $batch_id ?>">Update</button>
-
                                             </div>
+                                            <?php } ?>
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -111,6 +118,9 @@ $suppliers = include('database/show.php');
                         </div>
                     </div>
                 </div>
+                <?php } else { ?>
+                            <div id="errorMessage"> Access denied.</div>
+                <?php } ?>
             </div>
         </div>
 

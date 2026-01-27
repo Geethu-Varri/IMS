@@ -212,9 +212,9 @@ div.loginButtonContainer {
 div.loginButtonContainer button {
   font-size: 20px;
   padding: 10px 40px;
-  background: #f685a2;
+  background: #fff;
   border: none;
-  color: #fff;
+  color: #f685a1;
   text-align: right;
 }
 div.header {
@@ -223,17 +223,31 @@ div.header {
   background: #f685a1;
   padding: 10px 0px;
   text-align: right;
+ 
 }
 div.header a {
   font-size: 20px;
-  color: #fff;
+  color: #f685a1;
   border: 2px solid #fff;
   padding: 5px 10px;
   text-decoration: none;
   border-radius: 5px;
   border: 2px solid transparent;
   border-bottom: 2px solid #fff;
+  background: #fff;
+ 
+
 }
+ /* div.header a {
+  font-size: 18px;
+  color: white;
+  background: #000;
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  float: right;
+} */
+
 div.header a:hover {
   border: 2px solid #fff;
   border-radius: 5px;
@@ -454,7 +468,8 @@ div.footer a:hover {
 div.dashboard_sidebar {
   width: 24%;
   background: #323232;
-  height: 120vh;
+  height: 190vh;
+
 }
 div.dashboard_content_container {
   width: 80%;
@@ -492,7 +507,7 @@ ul.dashboard_menu_lists {
   margin-top: 20px;
 }
 ul.dashboard_menu_lists li.liMainMenu {
-  padding-top: 15px;
+  
   /* font-size:18px; */
   text-transform: uppercase;
 }
@@ -504,6 +519,7 @@ ul.dashboard_menu_lists li.liMainMenu a {
   font-size: 14px;
   padding:0px 15px;
   padding-bottom: 15px;
+  padding-top: 15px;
 }
 
 
@@ -900,4 +916,76 @@ div.col50{
   font-size: 14px;
   padding: 10px 20px;
 }
+.reportTypeContainer{
+  display:flex;
+  justify-content: flex-start;
+  padding: 10px 31px;
+}
+.reportType{
+  border: 1px solid #c2c6c2;
+  padding: 10px 24px;
+  border-radius: 4px;
+  background: #fff;
+  font-size: 14px;
+  margin-left: 21px;
+  width: 100%;
+}
+.reportType:hover{
+  background: #763a49;
+  color: #fff;
+}
+.reportExportBtn{
+  padding: 4px 15px;
+  display: inline-block;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: #f685a1;
+  color: white;
+  margin-left: 13px;
+  font-size: 11px;
+  border: 1px solid transparent;
+}
+.reportExportBtn:hover{
+  border: 1px solid #f685a1;
+  background: #fff;
+  color:#f685a1;
+}
+.reportType p{
+  font-size: 20px;
+  font-weight: 200;
+  margin-bottom: 10px;
+}
+#permissions{
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+#permissions .moduleName{
+  font-weight: bold;
+  text-transform: uppercase;
 
+}
+.moduleFunc{
+  text-align: center;
+  border: 1px solid #c1c1c1;
+  cursor: pointer;
+}
+.permission{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.permissionActive{
+  background: #f685a1;
+  color: #fff;
+  border: 1px solid #de2855;
+  transition: 0.3s;
+}
+.moduleFunc.active{
+  background: #f685a1;
+  color: #fff;
+  border: 1px solid #de2855;
+}
+#searchResults a:nth-child(even){
+  background: #fff !important;
+}
