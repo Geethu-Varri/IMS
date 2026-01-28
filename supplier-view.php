@@ -34,7 +34,7 @@ $suppliers = include('database/show.php');
                             <h1 class="section-header"><i class="fa-solid fa-list"></i>List of Suppliers</h1>
                             <div class="section-content">
                                 <div class="users">
-                                    <table>
+                                    <table id="supplierTable">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -51,7 +51,7 @@ $suppliers = include('database/show.php');
                                         <tbody>
                                             <?php  foreach ($suppliers as $index => $supplier) { ?>
                                                 <tr>
-                                                    <td><?= $index + 1 ?></td>
+                                                    <td></td>
                                                     <td>
                                                         <?= $supplier['supplier_name'] ?>
                                                     </td>
@@ -92,8 +92,9 @@ $suppliers = include('database/show.php');
                                                         ?>
 
                                                     </td>
-                                                    <td><?= date('M d, Y @ h:i:s A', strtotime($supplier['created_at']))  ?></td>
-                                                    <td><?= date('M d,Y @ h:i:s A', strtotime($supplier['updated_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($supplier['created_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($supplier['updated_at'])) ?></td>
+
                                                     <td>
                                                         <a href="" 
                                                            class="<?= in_array('supplier_edit', $user['permissions']) ? 'updateSupplier' : 'accessDeniedErr' ?>"
@@ -186,14 +187,7 @@ $suppliers = include('database/show.php');
                         }
                     });
                 }
-                // if(classList.contains('accessDeniedErr')){
-                //     e.preventDefault();
-                //     BootstrapDialog.alert({
-                //         type: BootstrapDialog.TYPE_DANGER,
-                //         message: 'Access Denied'
-                //     });
-                // }
-
+               
                 if (classList.contains('updateSupplier')) {
                     e.preventDefault();
                     sId = targetElement.dataset.sid;
@@ -201,10 +195,6 @@ $suppliers = include('database/show.php');
                 }
             });
             
-            // $('#editProductForm').on('submit',function(e){
-            //     e.preventDefault();
-
-            // });
             document.addEventListener('submit',function(e){
                 e.preventDefault();
                 targetElement = e.target;
@@ -224,8 +214,7 @@ $suppliers = include('database/show.php');
                     sid: document.getElementById('sid').value
                                 },
                 url: 'database/update-supplier.php',
-                // processData:false,
-                // contentType:false,
+               
                 dataType:'json',
                 success: function(data) {
                     BootstrapDialog.alert({
@@ -303,5 +292,72 @@ $suppliers = include('database/show.php');
     script.initialize();
 
 </script>
+<script>
+$(document).ready(function(){
+
+    $('#supplierTable').DataTable({
+        dom: 'lBfrtip',
+
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1; // S.NO
+                }
+            }
+        ],
+
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export Excel',
+                title: 'Suppliers_Report',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7], // skip Action(8)
+                    format: {
+                        body: function (data, row, column, node) {
+
+                            if (data === null || data === undefined) return '';
+
+                            data = data.toString();
+                            data = data.replace(/<[^>]*>/g, '').trim();
+
+                            
+
+                            return data;
+                        }
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Export PDF',
+                title: 'Suppliers_Report',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5,6,7],
+                    format: {
+                        body: function (data, row, column, node) {
+
+                            if (data === null || data === undefined) return '';
+
+                            data = data.toString();
+                            data = data.replace(/<[^>]*>/g, '').trim();
+
+                            
+
+                            return data;
+                        }
+                    }
+                }
+            }
+        ]
+    });
+
+});
+</script>
+
+
 </body>
 </html>

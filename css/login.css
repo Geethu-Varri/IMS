@@ -468,7 +468,7 @@ div.footer a:hover {
 div.dashboard_sidebar {
   width: 24%;
   background: #323232;
-  min-height: 100vh;
+  min-height: 150vh;
 
 }
 div.dashboard_content_container {
@@ -989,3 +989,33 @@ div.col50{
 #searchResults a:nth-child(even){
   background: #fff !important;
 }
+.custom-export-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.dt-btn {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.dt-btn:hover {
+    background: #f2f2f2;
+}
+
+.excel-btn {
+    background: #ffffff;
+}
+
+.pdf-btn {
+    background: #ffffff;
+}
+

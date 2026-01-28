@@ -36,7 +36,7 @@ $products = include('database/show.php');
                             <h1 class="section-header"><i class="fa-solid fa-list"></i>List of Products</h1>
                             <div class="section-content">
                                 <div class="users">
-                                    <table>
+                                    <table id="productTable">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -97,8 +97,9 @@ $products = include('database/show.php');
                                                         ?>
 
                                                     </td>
-                                                    <td><?= date('M d, Y @ h:i:s A', strtotime($product['created_at']))  ?></td>
-                                                    <td><?= date('M d,Y @ h:i:s A', strtotime($product['updated_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($product['created_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($product['updated_at'])) ?></td>
+
                                                     <td>
                                                         <a href="" 
                                                            class="<?= in_array('product_edit', $user['permissions']) ? 'updateProduct' : 'accessDeniedErr' ?>" 
@@ -191,13 +192,6 @@ $products = include('database/show.php');
                         }
                     });
                 }
-                // if(classList.contains('accessDeniedErr')){
-                //     e.preventDefault();
-                //     BootstrapDialog.alert({
-                //         type: BootstrapDialog.TYPE_DANGER,
-                //         message: 'Access Denied'
-                //     });
-                // }
 
                 if (classList.contains('updateProduct')) {
                     e.preventDefault();
@@ -302,5 +296,59 @@ $products = include('database/show.php');
     script.initialize();
 
 </script>
+<script>
+$(document).ready(function(){
+
+    $('#productTable').DataTable({
+        dom: 'lBfrtip',
+
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            }
+        ],
+
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export Excel',
+                title: 'Products_Report',
+                exportOptions: {
+                    columns: [0,2,3,4,5,6,7,8],
+                    format: {
+                        body: function (data) {
+                            if(!data) return '';
+                            return data.toString().replace(/<[^>]*>/g,'').trim();
+                        }
+                    }
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Export PDF',
+                title: 'Products_Report',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [0,2,3,4,5,6,7,8],
+                    format: {
+                        body: function (data) {
+                            if(!data) return '';
+                            return data.toString().replace(/<[^>]*>/g,'').trim();
+                        }
+                    }
+                }
+            }
+        ]
+    });
+
+});
+</script>
+
+
+
 </body>
 </html>

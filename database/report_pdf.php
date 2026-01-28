@@ -36,10 +36,6 @@ class PDF extends FPDF
                 $width = $headers[$header_key]['width'];
                 $align = $row[$header_key]['align'];
 
-                // if($header_key == 'image'){
-                //     $content = is_null($content) || $content == "" ? 'No Image' :
-            //  $this->Image('..//./uploads/products/' . $content, 45, $img_pos_y,25,20);
-                // }
                 if ($header_key == 'image') {
                     if (!empty($content)) {
                         $x = $this->GetX();
@@ -410,5 +406,6 @@ class PDF extends FPDF
     $pdf->Ln();
 
     $pdf->FancyTable($headers,$data,$row_height);
-    $pdf->Output();
+    $pdf->Output($type . "_report.pdf", "D");
+
 ?>

@@ -62,7 +62,7 @@ $suppliers = include('database/show.php');
                                     ?>
                                         <div class="poList" id="container-<?= $batch_id ?>">
                                             <p>Batch #: <?= $batch_id ?></p>
-                                            <table>
+                                            <table class="batchTable">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -287,7 +287,7 @@ function script() {
                                 } 
                                 else {
                                     row.querySelector('.qty-error').style.display = 'block';
-                                    status.value = 'incomplete';   // ✅ not complete
+                                    status.value = 'pending';   // ✅ not complete
                                 }
                             });
                         });
@@ -349,7 +349,88 @@ function script() {
 var script = new script();
 script.initialize();
 </script>
+<script>
+$(document).ready(function(){
 
+    $('.batchTable').each(function(index, table){
+
+        $(table).DataTable({
+            dom: 'lBfrtip',
+
+            columnDefs: [
+                {
+                    targets: 0,
+                    render: function (data, type, row, meta) {
+                        return meta.row + 1; // S.NO per batch
+                    }
+                }
+            ],
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export Excel',
+                    title: 'Order_Report',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7],
+                        format: {
+                            body: function (data) {
+                                if (!data) return '';
+                                return data.toString().replace(/<[^>]*>/g, '').trim();
+                            }
+                        }
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Export PDF',
+                    title: 'Order_Report',
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+
+                    customize: function (doc) {
+
+                        // Center title
+                        doc.styles.title.alignment = 'center';
+
+                        // Reduce page margins (optional)
+                        doc.pageMargins = [40, 60, 40, 60];
+
+                        // Find the table
+                        doc.content.forEach(function(item){
+                            if (item.table) {
+
+                                // Make table narrower instead of full width
+                                var colCount = item.table.body[0].length;
+                                item.table.widths = Array(colCount).fill('*'); // auto width
+
+                                // Center the table block
+                                item.alignment = 'center';
+
+                                // Add top margin
+                                item.margin = [0, 10, 0, 0];
+                            }
+                        });
+                    },
+
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7],
+                        format: {
+                            body: function (data) {
+                                if (!data) return '';
+                                return data.toString().replace(/<[^>]*>/g, '').trim();
+                            }
+                        }
+                    }
+                }
+
+            ]
+        });
+
+    });
+
+});
+</script>
 
 </body>
 

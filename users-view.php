@@ -39,7 +39,7 @@
                             <h1 class="section-header"><i class="fa-solid fa-list"></i>List of Users</h1>
                             <div class="section-content">
                                 <div class="users">
-                                    <table>
+                                    <table id="userTable">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -54,12 +54,13 @@
                                         <tbody>
                                             <?php foreach ($users as $index => $u) { ?>
                                                 <tr>
-                                                    <td><?= $index + 1 ?></td>
+                                                    <td></td>
                                                     <td class="firstName"><?= $u['first_name'] ?></td>
                                                     <td class="lastName"><?= $u['last_name'] ?></td>
                                                     <td class="email"><?= $u['email'] ?></td>
-                                                    <td><?= date('M d, Y @ h:i:s A', strtotime($u['created_at']))  ?></td>
-                                                    <td><?= date('M d,Y @ h:i:s A', strtotime($u['updated_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($u['created_at'])) ?></td>
+                                                    <td><?= date('Y-m-d H:i:s', strtotime($u['updated_at'])) ?></td>
+
                                                     <td>
                                                         <a href=""
                                                             class="<?= in_array('user_edit', $permissions) ? 'updateUser' : 'accessDeniedErr' ?>" 
@@ -484,7 +485,52 @@ document.addEventListener('click', function(e){
 });
 
 </script>
+<script>
+$(document).ready(function(){
 
+    $('#userTable').DataTable({
+        dom: 'lBfrtip',
+
+        columnDefs: [
+            {
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    return meta.row + 1; // S.NO
+                }
+            }
+        ],
+
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                text: 'Export Excel',
+                title: 'Users_Report',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5] // exclude Action column
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'Export PDF',
+                title: 'Users_Report',
+                orientation: 'landscape',
+                pageSize: 'A4',
+                exportOptions: {
+                    columns: [0,1,2,3,4,5]
+                },
+                customize: function (doc) {
+                    doc.content[1].table.widths =
+                        Array(doc.content[1].table.body[0].length).fill('*');
+
+                    doc.content[1].layout = 'lightHorizontalLines';
+                    doc.content[1].alignment = 'center';
+                }
+            }
+        ]
+    });
+
+});
+</script>
 
 </body>
 
